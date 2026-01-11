@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="//122.228.242.95:8073/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- <meta name="x5-fullscreen" content="true,width=1920"> -->
+  <link rel="stylesheet" href="css/site/wf/main.css" />
+  <title>网付-大数据分析</title>
+   <script>
+        var base = '//122.228.242.95:8073/';
+    </script>
+</head>
+
+<body>
+<div id="app" ms-controller="app" class="ms-controller">
+  <div class="main">
+    <div class="header">
+      <div class="logo">
+        <img src="images/site/wf/logo.png" />
+        <h1>网付大数据统计中心</h1>
+        <!-- <h1>{{@num | number(0)}}</h1> -->
+      </div>
+      <ul class="header-list">
+        <li>
+          <span class="dot dib back-color-blue"></span>
+          <h1 class="money" id="money1">
+            {{@headerList.todayMoney | number(0)}}
+          </h1>
+          <p>今日总金额（ 元 ）</p>
+        </li>
+        <li>
+          <span class="dot dib back-color-blue"></span>
+          <h1 id="money2">{{@headerList.todayPenNum}}</h1>
+          <p>今日总笔数（ 笔 ）</p>
+        </li>
+        <li>
+          <span class="dot dib back-color-red"></span>
+          <h1>{{@headerList.serverCity | number(0)}}</h1>
+          <p>服务城市（ 个 ）</p>
+        </li>
+        <li>
+          <span class="dot dib back-color-red"></span>
+          <h1>{{@headerList.nationwideShop | number(0)}}</h1>
+          <p>覆盖全国商户（ 家 ）</p>
+        </li>
+        <li>
+          <span class="dot dib back-color-red"></span>
+          <h1 id="money3">{{@headerList.totalPenNum | number(0)}}</h1>
+          <p>年累计笔数（ 笔 ）</p>
+        </li>
+      </ul>
+    </div>
+    <div class="view-box">
+      <div class="view-box-left">
+        <!-- 城市交易+支付占比+地图  star -->
+        <div class="city-pay-box">
+          <!-- 城市交易+支付占比 star -->
+          <!-- <div class="city-transaction-box">
+            <div class="title">城市交易排名</div>
+            <div id="city-transaction-view"></div>
+          </div> -->
+          <!-- 今日刷脸概况 -->
+          <div class="brush-face-overview-box">
+            <div class="title">今日刷脸概况</div>
+            <div class="details">
+              <div class="wx">
+                <div class="details-title">
+                  <img src="./images/site/wf/icon-wx.png" alt="" />
+                  微信刷脸支付
+                </div>
+                <div class="info">
+                  <div>
+                        <span id="wxMoney"
+                        >{{@headerList.todayWeChatFaceMoney | number(0)}} </span
+                        ><span class="unit">（元）</span>
+                  </div>
+                  <div>
+                        <span id="wxOrderNumber"
+                        >{{@headerList.todayWeChatFacePenNum | number(0)}} </span
+                        ><span class="unit">（笔）</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ali">
+                <div class="details-title">
+                  <img src="./images/site/wf/icon-ali.png" alt="" />
+                  支付宝刷脸支付
+                </div>
+                <div class="info">
+                  <div>
+                        <span id="aliMoney"
+                        >{{@headerList.todayAlipayFaceMoney | number(0)}} </span
+                        ><span class="unit">（元）</span>
+                  </div>
+                  <div>
+                        <span id="aliOrderNumber"
+                        >{{@headerList.todayAlipayFacePenNum | number(0)}} </span
+                        ><span class="unit">（笔）</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pay-transaction-box">
+            <div class="title">支付行业占比</div>
+            <div id="pay-transaction-view"></div>
+          </div>
+          <div class="map-box">
+            <!-- 公鸡地图  star -->
+            <div
+                    src="images/site/wf/Map2.svga"
+                    loops="0"
+                    clearsAfterStop="true"
+                    style="width: 100%; height: 100%"
+            ></div>
+
+            <!--<div id="map-view">
+                        <div class="yuan-box" ms-for="(index,item) in @detail.yuan" ms-css="item.style">
+                            <div class="yuan" ms-css="item.time"></div>
+                            <div class="yuan2" ms-css="item.time"></div>
+                            <div class="yuan3" ms-css="item.time"></div>
+                        </div>
+                        <div class="yuan-box" ms-for="(index,item) in @detail.yuan2" ms-css="item.style">
+                            <div class="yuan4" ms-css="item.time"></div>
+                            <div class="yuan5" ms-css="item.time"></div>
+                            <div class="yuan6" ms-css="item.time"></div>
+                        </div>
+                    </div>y-->
+          </div>
+          <!-- 公鸡地图  End -->
+        </div>
+        <!-- 城市交易+支付占比 End -->
+        <div class="left-bottom-box">
+          <div class="row week-transaction-box">
+            <!-- 近七日交易  star-->
+            <div class="title">近7日交易笔单统计</div>
+            <div id="week-transaction-view"></div>
+          </div>
+          <!-- 近七日交易  End-->
+          <div class="row week-transaction-box applt">
+            <!-- 网付数字化经营  star -->
+            <div class="title">网付数字化经营</div>
+            <div class="digitization-info">
+              <div class="details">
+                <div class="wx">
+                  <div class="details-title">
+                    <img src="./images/site/wf/icon-wx.png" alt="" />
+                    微信小程序
+                  </div>
+                  <div class="info">
+                    <div>
+                          <span class="unit">总计：</span
+                          ><span id="wxAppltTotalNum"
+                      >{{@headerList.totalWeChatMiniProgram | number(0)}}
+                          </span>
+                    </div>
+                    <div>
+                          <span class="unit">今日开通：</span
+                          ><span id="wxAppltTodayNum"
+                      >{{@headerList.todayWeChatMiniProgram | number(0)}}
+                          </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ali">
+                  <div class="details-title">
+                    <img src="./images/site/wf/icon-ali.png" alt="" />
+                    支付宝小程序
+                  </div>
+                  <div class="info">
+                    <div>
+                          <span class="unit">总计：</span
+                          ><span id="aliAppltTotalNum"
+                      >{{@headerList.totalAlipayMiniProgram | number(0)}}
+                          </span>
+                    </div>
+                    <div>
+                          <span class="unit">今日开通：</span
+                          ><span id="aliAppltTodayNum"
+                      >{{@headerList.todayAlipayMiniProgram | number(0)}}
+                          </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="applt-transaction-view"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 城市交易+支付占比+地图  End-->
+      <div class="view-box-right">
+        <!-- <div class="pay-passage-box">
+          <div class="title">支付通道占比</div>
+          <div id="pay-passage-view"></div>
+        </div> -->
+        <div class="card-issuing-box">
+          <div class="title">今日卡券发放统计</div>
+          <div class="details">
+            <div class="circle-list">
+              <div class="circle-item">
+                <p id="todayOpenCardNum">
+                  {{@headerList.todayOpenCardNum | number(0)}}
+                </p>
+                <p>今日开卡</p>
+              </div>
+              <div class="circle-item">
+                <p id="todayCouponNum">
+                  {{@headerList.todayCouponNum | number(0)}}
+                </p>
+                <p>卡券发放</p>
+              </div>
+              <div class="circle-item">
+                <p>
+                      <span id="twoMarketing"
+                      >{{@headerList.twoMarketing | number(0)}}</span
+                      >
+                  %
+                </p>
+                <p>二次营销比例</p>
+              </div>
+            </div>
+            <div class="rect-list">
+              <div class="rect-item">
+                <p>
+                  会员卡消费
+                  <span id="todayShopMemberConsumer"
+                  >{{@headerList.todayShopMemberConsumer |
+                        number(0)}}</span
+                  >
+                </p>
+              </div>
+              <div class="rect-item">
+                <p>
+                  会员卡充值
+                  <span id="todayShopMemberRecharge"
+                  >{{@headerList.todayShopMemberRecharge |
+                        number(0)}}</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pay-moving-box">
+          <div class="title">实时动态</div>
+          <div class="pay-moving" ms-click="test" id="demo1">
+            <table>
+              <tr>
+                <th>商户名称</th>
+                <th>交易金额</th>
+                <th>交易时间</th>
+                <th>交易方式</th>
+                <!-- <th class="tal">支付账号</th> -->
+              </tr>
+              <tr
+                      class="border-warp"
+                      ms-for="(index,item) in @detail.payMoving"
+              >
+                <td class="max-width onetxt">{{item.userShoperName}}</td>
+                <td class="min-width onetxt">{{item.money}}</td>
+                <td>{{item.payTime}}</td>
+                <td>{{item.tranType}}</td>
+                <!-- <td>{{item.phone}}</td> -->
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/wf/jquery-2.1.1.min.js"></script>
+<script src="js/wf/svga.min.js"></script>
+<script src="js/wf/avalon.js"></script>
+<script src="js/wf/echarts.min.js"></script>
+<script src="js/wf/countUp.min.js"></script>
+<script src="js/wf/common.js?v=3"></script>
+<script>
+  let timer2 = null;
+  var app = avalon.define({
+    $id: "app",
+    name: "app",
+    detail: {},
+    weekList: [],
+    headerList: {
+      createTime: 0,
+      id: 0,
+      isDelete: 0,
+      modifyTime: 0,
+      todayMoney: 0,
+      todayPenNum: 0,
+      totalPenNum: 0,
+      serverCity: 0,
+      nationwideShop: 0,
+      todayAlipayFaceMoney: 0,
+      todayAlipayFacePenNum: 0,
+      todayWeChatFaceMoney: 0,
+      todayWeChatFacePenNum: 0,
+      todayOpenCardNum: 0,
+      todayCouponNum: 0,
+      twoMarketing: 0,
+      todayShopMemberConsumer: 0,
+      todayShopMemberRecharge: 0,
+      todayAlipayMiniProgram: 0,
+      todayWeChatMiniProgram: 0,
+      totalAlipayMiniProgram: 0,
+      totalWeChatMiniProgram: 0,
+    },
+    Newdate: [],
+    NewtodayMoney: [],
+    num: 0,
+    info: [],
+    init: function () {
+      app.detail = index;
+      app.WfGetWeekData();
+      app.WfGetTotalMoney();
+      app.WfNowTranList();
+      let timer3 = setInterval(() => {
+        app.WfNowTranList();
+      }, 60000);
+      let timer4 = setInterval(() => {
+        //每一个半小时刷新页面
+        window.location.reload();
+      }, 5400000);
+      let timer = setInterval(function () {
+        //每天凌晨1点请求七日数据
+        if (new Date().getHours() == 1) {
+          app.WfGetWeekData();
+        }
+      }, 3600000);
+    },
+    NumAnimation: function (old, back) {
+      let time = 29;
+      let money1 = new CountUp(
+              "money1",
+              old.todayMoney,
+              back.todayMoney,
+              0,
+              time
+              ),
+              money2 = new CountUp(
+                      "money2",
+                      old.todayPenNum,
+                      back.todayPenNum,
+                      0,
+                      time
+              ),
+              money3 = new CountUp(
+                      "money3",
+                      old.totalPenNum,
+                      back.totalPenNum,
+                      0,
+                      time
+              ),
+              wxMoney = new CountUp(
+                      "wxMoney",
+                      old.todayWeChatFaceMoney,
+                      back.todayWeChatFaceMoney,
+                      0,
+                      time
+              ),
+              wxOrderNumber = new CountUp(
+                      "wxOrderNumber",
+                      old.todayWeChatFacePenNum,
+                      back.todayWeChatFacePenNum,
+                      0,
+                      time
+              ),
+              aliMoney = new CountUp(
+                      "aliMoney",
+                      old.todayAlipayFaceMoney,
+                      back.todayAlipayFaceMoney,
+                      0,
+                      time
+              ),
+              aliOrderNumber = new CountUp(
+                      "aliOrderNumber",
+                      old.todayAlipayFacePenNum,
+                      back.todayAlipayFacePenNum,
+                      0,
+                      time
+              ),
+              todayOpenCardNum = new CountUp(
+                      "todayOpenCardNum",
+                      old.todayOpenCardNum,
+                      back.todayOpenCardNum,
+                      0,
+                      time
+              ),
+              todayCouponNum = new CountUp(
+                      "todayCouponNum",
+                      old.todayCouponNum,
+                      back.todayCouponNum,
+                      0,
+                      time
+              ),
+              twoMarketing = new CountUp(
+                      "twoMarketing",
+                      old.twoMarketing,
+                      back.twoMarketing,
+                      0,
+                      time
+              ),
+              todayShopMemberConsumer = new CountUp(
+                      "todayShopMemberConsumer",
+                      old.todayShopMemberConsumer,
+                      back.todayShopMemberConsumer,
+                      0,
+                      time
+              ),
+              todayShopMemberRecharge = new CountUp(
+                      "todayShopMemberRecharge",
+                      old.todayShopMemberRecharge,
+                      back.todayShopMemberRecharge,
+                      0,
+                      time
+              );
+      wxAppltTotalNum = new CountUp(
+              "wxAppltTotalNum",
+              old.totalWeChatMiniProgram,
+              back.totalWeChatMiniProgram,
+              0,
+              time
+      );
+      wxAppltTodayNum = new CountUp(
+              "wxAppltTodayNum",
+              old.todayWeChatMiniProgram,
+              back.todayWeChatMiniProgram,
+              0,
+              time
+      );
+      aliAppltTotalNum = new CountUp(
+              "aliAppltTotalNum",
+              old.totalAlipayMiniProgram,
+              back.totalAlipayMiniProgram,
+              0,
+              time
+      );
+      aliAppltTodayNum = new CountUp(
+              "aliAppltTodayNum",
+              old.todayAlipayMiniProgram,
+              back.todayAlipayMiniProgram,
+              0,
+              time
+      );
+      money1.start(); //执行动画
+      money2.start();
+      money3.start();
+      wxMoney.start();
+      wxOrderNumber.start();
+      aliMoney.start();
+      aliOrderNumber.start();
+      todayOpenCardNum.start();
+      todayCouponNum.start();
+      twoMarketing.start();
+      todayShopMemberConsumer.start();
+      todayShopMemberRecharge.start();
+      aliAppltTodayNum.start();
+      aliAppltTotalNum.start();
+      wxAppltTodayNum.start();
+      wxAppltTotalNum.start();
+    },
+    WfGetTotalMoney: function () {
+      //头部数据
+      apiAction.WfGetTotalMoney(function (res) {
+        app.NumAnimation(app.headerList, res.data);
+        storage.set("headerList", res.data);
+        app.headerList = storage.get("headerList");
+      });
+      let timer1 = setInterval(() => {
+        //今日金额
+        apiAction.WfGetTotalMoney(function (res) {
+          app.NumAnimation(app.headerList, res.data);
+          storage.set("headerList", res.data);
+          app.headerList = storage.get("headerList");
+        });
+      }, 30000);
+    },
+    WfGetWeekData: function () {
+      //更新七日
+      console.log(apiAction);
+      apiAction.WfGetWeekData(function (res) {
+        for (let i = 0; i < res.data.length; i++) {
+          app.Newdate[i] = res.data[i].createTime.substring(5, 10);
+          app.NewtodayMoney[i] = Math.round(
+                  res.data[i].todayPenNum / 10000
+          );
+        }
+        option3.series[0].data = app.NewtodayMoney;
+        option3.xAxis.data = app.Newdate;
+        weekChart.setOption(option3);
+      });
+    },
+    WfNowTranList: function () {
+      let myDate = new Date();
+      apiAction.WfNowTranList(
+              function (res) {
+                app.info = res.data;
+                if (app.info.length > 0) {
+                  for (let i = 0; i < res.data.length; i++) {
+                    app.info[i].tranType = app.tranTypeConversion(
+                            res.data[i].tranType
+                    ); //转换支付类型
+                    app.info[i].payTime = myDate.toLocaleString("chinese", {
+                      hour12: false,
+                    }); //转换支付时间
+                    app.info[i].phone =
+                            res.data[i].phone.substr(0, 3) +
+                            "****" +
+                            res.data[i].phone.substr(7); //手机号转换
+                  }
+                  index.payMoving = res.data;
+                }
+              },
+              (error) => {
+                app.info = JSON.parse(JSON.stringify(index.payMoving));
+              },
+              (resp) => {
+                if (timer2 != null) {
+                  clearInterval(timer2);
+                }
+                timer2 = setInterval(() => {
+                  if (app.num == app.info.length) {
+                    app.num = 0;
+                  }
+                  var myDate2 = new Date();
+                  app.info[app.num].payTime = myDate2.toLocaleString("chinese", {
+                    hour12: false,
+                  }); //转换支付时间
+                  app.detail.payMoving.unshift(app.info[app.num]); //插入首条
+                  app.detail.payMoving.splice(app.detail.payMoving.length - 1, 1); //删除尾条
+
+                  if (app.num < app.info.length) {
+                    app.num++;
+                  }
+                }, 100);
+              }
+      );
+    },
+    /*randomNumber:function(number){
+        number = number * 1000;
+        var Rand = Math.random();
+        var number2 = Rand*number;
+        console.log("number2 :" +number2);
+        return number2;
+    },*/
+    tranTypeConversion: function (type) {
+      switch (type) {
+        case 2:
+          return "支付宝";
+          break;
+        case 3:
+          return "微信支付";
+          break;
+        case 1:
+          return "银联支付";
+          break;
+        case 4:
+          return "QQ钱包";
+          break;
+        default:
+      }
+    },
+  });
+  app.init();
+</script>
+</body>
+</html>
